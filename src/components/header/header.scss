@@ -1,0 +1,16 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+
+  .header-left {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .header-right {
+    width: 50%;
+    display: flex;
+  }
+}
