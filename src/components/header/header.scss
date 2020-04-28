@@ -19,8 +19,12 @@
   .header-right {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-end;
     font-size: 24px;
+
+    .welcomeUser {
+      font-size: 14px;
+    }
 
     .links {
       margin-right: 20px;
