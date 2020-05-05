@@ -12,6 +12,7 @@ function welcomeUser(e) {
     return <p>Test</p>;
   }
 }
+
 const Header = ({ user }) => (
   <div className="header">
     <Link to="/" className="header-left">

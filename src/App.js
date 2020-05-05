@@ -5,24 +5,38 @@ import { Switch, Route } from "react-router-dom";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header";
 import SignInAndSignUp from "./pages/signinandup/signinandup.component";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      currentUsers: "",
+      currentUser: "",
     };
   }
 
   unsubscribe = null;
 
   componentDidMount() {
-    this.unsubscribe = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUsers: user });
-      console.log(user);
-      console.log(this.state.currentUsers.displayName);
+    this.unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapshot) => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data(),
+            },
+          });
+          console.log(
+            "Current user logged in: " + this.state.currentUser.displayName
+          );
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+        console.log("There is no user logged in.");
+      }
     });
   }
 
@@ -31,8 +45,8 @@ class App extends React.Component {
   }
 
   ifUserSignedIn() {
-    if (this.state.currentUsers) {
-      return this.state.currentUsers.displayName;
+    if (this.state.currentUser) {
+      return this.state.currentUser.displayName;
     } else {
       return false;
     }

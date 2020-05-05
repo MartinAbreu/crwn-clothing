@@ -4,6 +4,7 @@ import CustomButton from "../custom-button/custom-button";
 
 import "./sign-in.styles.scss";
 import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth } from "firebase";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -17,8 +18,18 @@ class SignIn extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password } = this.state;
+    this.setState({ email: { email }, password: { password } });
 
-    this.setState({ email: "", password: "" });
+    try {
+      auth().signInWithEmailAndPassword(email, password);
+      this.setState({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log("Following error occured: " + error);
+    }
   };
 
   handleChange = (e) => {
@@ -32,6 +43,7 @@ class SignIn extends React.Component {
       backgroundColor: "blue",
       color: "white",
     };
+    const { email, password } = this.state;
     return (
       <div className="sign-in">
         <h1>I already have an account</h1>
@@ -41,7 +53,7 @@ class SignIn extends React.Component {
           <FormInput
             name="email"
             type="email"
-            value={this.state.email}
+            value={email}
             handleChange={this.handleChange}
             label="Email"
             required
@@ -49,7 +61,7 @@ class SignIn extends React.Component {
           <FormInput
             name="password"
             type="password"
-            value={this.state.password}
+            value={password}
             handleChange={this.handleChange}
             label="Password"
             required

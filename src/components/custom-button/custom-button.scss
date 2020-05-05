@@ -11,6 +11,7 @@
   text-transform: uppercase;
   font-weight: lighter;
   border: none;
+  border-radius: 3px;
   margin-left: 10px;
   cursor: pointer;
 
@@ -22,12 +23,11 @@
 
   &.googleButtonStyle {
     background-color: #4868f8;
-    border: none;
 
     &:hover {
       background-color: white;
       color: #4868f8;
-      border: 0.25px solid #4868f8;
+      border: 1px solid #4868f8;
     }
   }
 }
